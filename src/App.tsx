@@ -7,6 +7,7 @@ import {
   XCircle,
   Clock,
   ArrowRight,
+  ArrowDown,
   GraduationCap,
   Building2,
   BookOpen,
@@ -169,49 +170,105 @@ function VersionOneSaaSBento() {
   const progressRef = useRef(0);
   const [simReveal, setSimReveal] = useState(0); // 0 = card hidden, image fully visible; 1 = card fully layered over image
 
-  // Scroll-locked reveal: page scroll pauses at the hero pin point while wheel
-  // input drives the CBT card up over the static image + text. Unlocks at full reveal.
+  // Scroll-locked reveal: page scroll pauses at the hero pin point while input
+  // drives the CBT card up over the static image + text. Motion is eased via
+  // rAF (no 1:1 wheel jitter), the body lock never reflows layout, and a dwell
+  // at full reveal lets the user view the card before the page releases.
   useEffect(() => {
-    const WHEEL_PER_REVEAL = 700; // wheel px needed for a full reveal
-    const setLock = (locked) => {
-      document.body.style.overflow = locked ? 'hidden' : '';
+    const WHEEL_PER_REVEAL = 700; // wheel px for a full reveal
+    const HOLD_PX = 550; // extra wheel at full reveal before the page releases
+    const EASE = 0.14; // rAF easing factor (higher = snappier)
+    let target = 0; // input progress 0..1 (wheel/touch/keys write here)
+    let displayed = 0; // eased progress actually rendered
+    let hold = 0; // dwell accumulated at full reveal
+    let passed = false; // user dwelled past full reveal; don't re-grab while scrolling on
+    let locked = false; // whether body scroll is currently locked
+    let raf = 0;
+
+    const setLock = (next) => {
+      if (next === locked) return; // never toggle needlessly = no flicker
+      locked = next;
+      document.body.style.overflow = next ? 'hidden' : '';
     };
-    const advance = (delta) => {
+
+    const tick = () => {
+      raf = 0;
+      const diff = target - displayed;
+      if (Math.abs(diff) > 0.0005) {
+        displayed += diff * EASE;
+        if (Math.abs(target - displayed) <= 0.0005) displayed = target;
+        setSimReveal(displayed);
+        progressRef.current = displayed;
+      }
+      if (locked || Math.abs(target - displayed) > 0.0005) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    // Sync card state at the edges without hijacking. Returns true when the
+    // hero is inside the hijack zone (pin point reached, hero still on screen).
+    const syncEdges = () => {
       const node = heroRef.current;
       if (!node) return false;
       const rect = node.getBoundingClientRect();
       const vh = window.innerHeight || 800;
       if (rect.top > 0) {
-        // hero hasn't reached the pin point: keep card hidden, never hijack
-        if (progressRef.current !== 0) {
-          progressRef.current = 0;
+        if (target !== 0 || displayed !== 0) {
+          target = 0; displayed = 0; hold = 0; passed = false;
           setSimReveal(0);
-        }
-        return false;
-      }
-      if (rect.bottom <= vh * 0.4) {
-        // hero long past: keep card fully shown, never hijack
-        if (progressRef.current !== 1) {
-          progressRef.current = 1;
-          setSimReveal(1);
+          progressRef.current = 0;
         }
         setLock(false);
         return false;
       }
-      const p = progressRef.current;
-      if (delta > 0 && p < 1) {
-        progressRef.current = Math.min(1, p + delta / WHEEL_PER_REVEAL);
-        setSimReveal(progressRef.current);
-        const done = progressRef.current >= 1;
-        setLock(!done);
-        return !done;
+      if (rect.bottom <= vh * 0.4) {
+        if (target !== 1 || displayed !== 1) {
+          target = 1; displayed = 1; hold = 0;
+          setSimReveal(1);
+          progressRef.current = 1;
+        }
+        setLock(false);
+        return false;
       }
-      if (delta < 0 && p > 0) {
-        progressRef.current = Math.max(0, p + delta / WHEEL_PER_REVEAL);
-        setSimReveal(progressRef.current);
-        const done = progressRef.current <= 0;
-        setLock(!done);
-        return !done;
+      return true;
+    };
+
+    // Feed a scroll delta (px, down positive). Returns true when the event
+    // should be swallowed (page stays locked).
+    const feed = (delta) => {
+      if (!syncEdges()) return false;
+      if (delta === 0) return locked;
+      if (delta > 0) {
+        if (target < 1) {
+          target = Math.min(1, target + delta / WHEEL_PER_REVEAL);
+          hold = 0;
+          passed = false;
+          setLock(true);
+          kick();
+          return true;
+        }
+        if (passed) return false; // already released: let the page scroll
+        hold += delta; // dwell on the fully revealed card
+        if (hold >= HOLD_PX) {
+          hold = 0;
+          passed = true;
+          setLock(false);
+          return false;
+        }
+        setLock(true);
+        return true;
+      }
+      // scrolling back up reverses immediately (cancels any dwell/hold)
+      hold = 0;
+      passed = false;
+      if (target > 0) {
+        target = Math.max(0, target + delta / WHEEL_PER_REVEAL);
+        setLock(target > 0);
+        kick();
+        return target > 0;
       }
       setLock(false);
       return false;
@@ -219,7 +276,7 @@ function VersionOneSaaSBento() {
 
     const onWheel = (e) => {
       if (e.ctrlKey || e.metaKey) return; // let pinch-zoom through
-      if (advance(e.deltaY)) e.preventDefault();
+      if (feed(e.deltaY)) e.preventDefault();
     };
     let lastTouchY = null;
     const onTouchStart = (e) => {
@@ -229,25 +286,41 @@ function VersionOneSaaSBento() {
       if (lastTouchY == null) return;
       const delta = (lastTouchY - e.touches[0].clientY) * 2;
       lastTouchY = e.touches[0].clientY;
-      if (advance(delta)) e.preventDefault();
+      if (feed(delta)) e.preventDefault();
+    };
+    const KEY_STEP = { ArrowDown: 120, PageDown: 450, ' ': 450, ArrowUp: -120, PageUp: -450 };
+    const onKey = (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tag = document.activeElement?.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+      const d = KEY_STEP[e.key];
+      if (d == null) return;
+      const node = heroRef.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      if (rect.top > 0 || rect.bottom <= vh * 0.4) return; // let native scroll handle it
+      if (feed(d)) e.preventDefault();
     };
     const onScroll = () => {
-      // init / edge sync only; wheel drives the reveal while locked
-      if (document.body.style.overflow === 'hidden') return;
-      advance(0);
+      if (locked) return; // wheel/touch/keys drive the reveal while locked
+      syncEdges();
     };
 
     onScroll();
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKey);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKey);
       window.removeEventListener('scroll', onScroll);
-      setLock(false);
+      if (raf) cancelAnimationFrame(raf);
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -632,6 +705,19 @@ function VersionOneSaaSBento() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Continue hint: appears once the card is fully revealed */}
+          <div
+            className={`flex justify-center pt-28 sm:pt-36 transition-opacity duration-500 ${
+              simReveal > 0.98 ? 'opacity-100' : 'opacity-0'
+            }`}
+            aria-hidden="true"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-semibold shadow-lg animate-bounce">
+              Scroll to continue
+              <ArrowDown className="w-3.5 h-3.5" />
+            </span>
           </div>
         </section>
       </div>
