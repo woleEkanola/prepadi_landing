@@ -155,7 +155,7 @@ const STORY_STEPS = [
 ];
 
 // ============================================================================
-// VERSION 1: CLEAN MODERN SAAS BENTO (EMERALD TEAL & SLATE)
+// VERSION 1: CLEAN MODERN SAAS BENTO (PREPADI BLUE & ORANGE)
 // ============================================================================
 function VersionOneSaaSBento() {
   const [heroMode, setHeroMode] = useState('student'); // 'student' | 'school'
@@ -268,21 +268,23 @@ function VersionOneSaaSBento() {
   const userPick = selectedAns[questionIdx];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-emerald-600 selection:text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-[#0000FE] selection:text-white">
       {/* Subtle Top Mesh Glow */}
       <div className="relative overflow-hidden">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-gradient-to-tr from-emerald-500/15 via-teal-500/10 to-emerald-400/10 blur-3xl rounded-full"
+          className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-gradient-to-tr from-[#0000FE]/15 via-[#FF6600]/10 to-[#FF6600]/10 blur-3xl rounded-full"
         />
 
         {/* Navbar */}
         <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5">
           <div className="bg-white/90 backdrop-blur-md border border-slate-200/90 rounded-2xl px-4 sm:px-6 py-3.5 shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-lg shadow-sm shadow-emerald-600/30">
-                P
-              </div>
+              <img
+                src="./prepadi_logo.png"
+                alt="Prepadi logo"
+                className="w-10 h-10 rounded-xl object-cover shadow-sm"
+              />
               <div>
                 <span className="font-bold text-slate-900 text-lg tracking-tight block leading-none">
                   Prepadi
@@ -294,14 +296,17 @@ function VersionOneSaaSBento() {
             </div>
 
             <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-              <a href="#v1-simulator" className="hover:text-emerald-600 transition-colors">
+              <a href="#v1-simulator" className="hover:text-[#0000FE] transition-colors">
                 Simulator
               </a>
-              <a href="#v1-bento" className="hover:text-emerald-600 transition-colors">
+              <a href="#v1-bento" className="hover:text-[#0000FE] transition-colors">
                 Platform Features
               </a>
-              <a href="#v1-workflow" className="hover:text-emerald-600 transition-colors">
+              <a href="#v1-workflow" className="hover:text-[#0000FE] transition-colors">
                 For Schools
+              </a>
+              <a href="#v1-pricing" className="hover:text-[#0000FE] transition-colors">
+                Pricing
               </a>
             </nav>
 
@@ -314,7 +319,7 @@ function VersionOneSaaSBento() {
               </button>
               <button
                 onClick={() => setSignupModal(true)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm shadow-emerald-600/20 transition-all flex items-center gap-1.5"
+                className="bg-[#0000FE] hover:bg-[#0000CC] text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm shadow-[#0000FE]/20 transition-all flex items-center gap-1.5"
               >
                 <span>Get Started</span>
                 <ArrowRight className="w-4 h-4" />
@@ -329,66 +334,66 @@ function VersionOneSaaSBento() {
             {/* Left Column: Streamlined Copy (Cut by ~60%) */}
             <div className="lg:col-span-6 space-y-6">
               <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-slate-900 tracking-tight leading-[1.08]">
-                Master Nigerian exams.{' '}
-                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                  Run school CBT.
-                </span>
+                {heroMode === 'student' ? (
+                  <>
+                    Ace the exam.{' '}
+                    <span className="bg-gradient-to-r from-[#0000FE] to-[#FF6600] bg-clip-text text-transparent">
+                      Skip the panic.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Run school mocks.{' '}
+                    <span className="bg-gradient-to-r from-[#0000FE] to-[#FF6600] bg-clip-text text-transparent">
+                      Skip the grading.
+                    </span>
+                  </>
+                )}
               </h1>
 
               <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-                Timed, syllabus-verified past papers for students. One clean workspace for schools to assign mocks, track scores, and run offline-ready exams.
+                Real JAMB &amp; WAEC timed practice for students. One-click CBT exams for Nigerian schools—online or offline.
               </p>
 
               {/* Primary CTAs */}
               <div className="flex flex-wrap items-center gap-3.5 pt-1">
                 <button
                   onClick={() => setSignupModal(true)}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3.5 rounded-xl shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2"
+                  className="bg-[#0000FE] hover:bg-[#0000CC] text-white font-semibold px-6 py-3.5 rounded-xl shadow-md shadow-[#0000FE]/20 transition-all flex items-center gap-2"
                 >
-                  <span>Start for Free</span>
+                  <span>
+                    {heroMode === 'student'
+                      ? 'Start Practising for Free'
+                      : 'Set Up Your School Workspace'}
+                  </span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setHeroMode(heroMode === 'student' ? 'school' : 'student')}
                   className="bg-white hover:bg-slate-50 text-slate-700 font-semibold px-5 py-3.5 rounded-xl border border-slate-200 shadow-2xs transition-all flex items-center gap-2"
                 >
-                  <Building2 className="w-4 h-4 text-emerald-600" />
+                  <Building2 className="w-4 h-4 text-[#0000FE]" />
                   <span>
-                    {heroMode === 'student' ? 'Switch to School View' : 'Switch to Student View'}
+                    {heroMode === 'student' ? 'Preview School Mode' : 'Preview Student CBT'}
                   </span>
                 </button>
               </div>
 
-              {/* Streamlined 3-Pillar Mini Strip (Replaces the 3 bulky hero cards) */}
+              {/* Editorial Proof Strip (V3 messaging) */}
               <div className="pt-4 grid grid-cols-3 gap-4 border-t border-slate-200/80">
-                <div className="flex items-start gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
-                    <GraduationCap className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-900">For Students</div>
-                    <div className="text-[11px] text-slate-500">Calm, timed CBT flow</div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-slate-900">45k+</div>
+                  <div className="text-xs font-semibold text-slate-500">
+                    Seeded Past Questions
                   </div>
                 </div>
-
-                <div className="flex items-start gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 mt-0.5">
-                    <Building2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-900">For Schools</div>
-                    <div className="text-[11px] text-slate-500">1-click mock grading</div>
-                  </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#0000FE]">100%</div>
+                  <div className="text-xs font-semibold text-slate-500">Offline Auto-Save</div>
                 </div>
-
-                <div className="flex items-start gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
-                    <Wifi className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-900">Low-Data Ready</div>
-                    <div className="text-[11px] text-slate-500">Offline auto-save</div>
-                  </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#FF6600]">Instant</div>
+                  <div className="text-xs font-semibold text-slate-500">Class Broadsheets</div>
                 </div>
               </div>
             </div>
@@ -420,7 +425,7 @@ function VersionOneSaaSBento() {
                       onClick={() => setHeroMode('student')}
                       className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                         heroMode === 'student'
-                          ? 'bg-white text-emerald-600 shadow-2xs'
+                          ? 'bg-white text-[#0000FE] shadow-2xs'
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
@@ -431,7 +436,7 @@ function VersionOneSaaSBento() {
                       onClick={() => setHeroMode('school')}
                       className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                         heroMode === 'school'
-                          ? 'bg-white text-emerald-600 shadow-2xs'
+                          ? 'bg-white text-[#0000FE] shadow-2xs'
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
                     >
@@ -446,7 +451,7 @@ function VersionOneSaaSBento() {
                     className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 border transition-all ${
                       isOfflineSim
                         ? 'bg-amber-50 border-amber-200 text-amber-800'
-                        : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                        : 'bg-[#0000FE]/10 border-[#0000FE]/40 text-[#0000CC]'
                     }`}
                   >
                     {isOfflineSim ? (
@@ -456,7 +461,7 @@ function VersionOneSaaSBento() {
                       </>
                     ) : (
                       <>
-                        <Wifi className="w-3.5 h-3.5 text-emerald-600" />
+                        <Wifi className="w-3.5 h-3.5 text-[#0000FE]" />
                         <span>Low-Data Sync Active</span>
                       </>
                     )}
@@ -474,7 +479,7 @@ function VersionOneSaaSBento() {
                             onClick={() => setQuestionIdx(idx)}
                             className={`text-xs font-bold px-3 py-1 rounded-lg transition-colors ${
                               questionIdx === idx
-                                ? 'bg-emerald-600 text-white'
+                                ? 'bg-[#0000FE] text-white'
                                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             }`}
                           >
@@ -484,19 +489,19 @@ function VersionOneSaaSBento() {
                       </div>
 
                       <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg">
-                        <Clock className="w-3.5 h-3.5 text-emerald-600" />
+                        <Clock className="w-3.5 h-3.5 text-[#0000FE]" />
                         <span>{formatClock(timeLeft)}</span>
                       </div>
                     </div>
 
                     {/* Progress bar */}
                     <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                      <div className="bg-emerald-600 h-full w-3/4 rounded-full transition-all" />
+                      <div className="bg-[#0000FE] h-full w-3/4 rounded-full transition-all" />
                     </div>
 
                     {/* Question Box */}
                     <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-4 space-y-3">
-                      <div className="flex items-center justify-between text-xs font-semibold text-emerald-600">
+                      <div className="flex items-center justify-between text-xs font-semibold text-[#0000FE]">
                         <span>{activeQ.badge} • {activeQ.topic}</span>
                         <span>{activeQ.questionNumber}</span>
                       </div>
@@ -511,14 +516,14 @@ function VersionOneSaaSBento() {
                           const isCorrect = opt.id === activeQ.correct;
 
                           let cls =
-                            'bg-white hover:border-emerald-300 border-slate-200 text-slate-800';
+                            'bg-white hover:border-[#FF6600] border-slate-200 text-slate-800';
                           if (userPick) {
                             if (picked && isCorrect) {
-                              cls = 'bg-emerald-50 border-emerald-500 text-emerald-900';
+                              cls = 'bg-[#0000FE]/10 border-[#0000FE] text-[#0000FE]';
                             } else if (picked && !isCorrect) {
                               cls = 'bg-rose-50 border-rose-400 text-rose-900';
                             } else if (isCorrect) {
-                              cls = 'bg-emerald-50/50 border-emerald-300 text-emerald-800';
+                              cls = 'bg-[#0000FE]/10 border-[#FF6600] text-[#0000FE]';
                             }
                           }
 
@@ -534,7 +539,7 @@ function VersionOneSaaSBento() {
                                 <span
                                   className={`w-6 h-6 rounded-md text-xs font-bold flex items-center justify-center ${
                                     picked
-                                      ? 'bg-emerald-600 text-white'
+                                      ? 'bg-[#0000FE] text-white'
                                       : 'bg-slate-100 text-slate-600'
                                   }`}
                                 >
@@ -543,7 +548,7 @@ function VersionOneSaaSBento() {
                                 {opt.text}
                               </span>
                               {userPick && isCorrect && (
-                                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                                <CheckCircle2 className="w-4 h-4 text-[#0000FE] shrink-0" />
                               )}
                             </button>
                           );
@@ -551,9 +556,9 @@ function VersionOneSaaSBento() {
                       </div>
 
                       {userPick && (
-                        <div className="text-xs bg-emerald-50/80 border border-emerald-100 text-emerald-950 rounded-xl p-2.5 flex items-center justify-between">
+                        <div className="text-xs bg-[#0000FE]/15 border border-[#0000FE]/25 text-[#000066] rounded-xl p-2.5 flex items-center justify-between">
                           <span>
-                            <strong className="text-emerald-700">Instant Review:</strong>{' '}
+                            <strong className="text-[#0000CC]">Instant Review:</strong>{' '}
                             {activeQ.explanation}
                           </span>
                         </div>
@@ -563,7 +568,7 @@ function VersionOneSaaSBento() {
                     {/* Bottom 2 Mini Highlight Cards inside Hero */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="bg-slate-900 text-white rounded-2xl p-4">
-                        <div className="text-[11px] font-medium text-emerald-300 flex items-center gap-1.5">
+                        <div className="text-[11px] font-medium text-[#FF6600] flex items-center gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           <span>Performance view</span>
                         </div>
@@ -574,7 +579,7 @@ function VersionOneSaaSBento() {
                       </div>
 
                       <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                        <div className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1.5">
+                        <div className="text-[11px] font-semibold text-[#0000FE] flex items-center gap-1.5">
                           <Wifi className="w-3.5 h-3.5" />
                           <span>Low-data ready</span>
                         </div>
@@ -588,16 +593,16 @@ function VersionOneSaaSBento() {
                 ) : (
                   /* School Admin Preview Mode */
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4">
+                    <div className="flex items-center justify-between bg-[#0000FE]/15 border border-[#0000FE]/25 rounded-2xl p-4">
                       <div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#0000FE]">
                           SCHOOL ASSESSMENT HUB
                         </span>
                         <h3 className="text-base font-bold text-slate-900">
                           SS3 Mock UTME — Physics &amp; Chemistry
                         </h3>
                       </div>
-                      <span className="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="bg-[#0000FE] text-white text-xs font-bold px-3 py-1 rounded-full">
                         82% Class Avg
                       </span>
                     </div>
@@ -616,7 +621,7 @@ function VersionOneSaaSBento() {
                             <div className="font-bold text-slate-900">{item.student}</div>
                             <div className="text-slate-500">{item.status}</div>
                           </div>
-                          <span className="font-mono font-bold text-sm text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                          <span className="font-mono font-bold text-sm text-[#0000FE] bg-[#0000FE]/10 px-2.5 py-1 rounded-lg">
                             {item.score}
                           </span>
                         </div>
@@ -635,14 +640,14 @@ function VersionOneSaaSBento() {
       <section id="v1-bento" className="py-24 md:py-32 bg-white border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16">
           <div className="max-w-2xl space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600">
-              HOW IT FITS TOGETHER
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0000FE]">
+              HOW PREPADI FITS
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              One platform for practice, assignments, and school exams.
+              Structured prep in three calm steps.
             </h2>
             <p className="text-slate-600 text-base">
-              Everything you had in 10 separate boxes—streamlined into four focused capabilities.
+              No cluttered menus or unverified questions. Everything flows from curated papers to instant mastery.
             </p>
           </div>
 
@@ -650,11 +655,11 @@ function VersionOneSaaSBento() {
             {/* Bento 1 (7 Cols): Timed CBT Practice */}
             <div className="lg:col-span-7 bg-slate-50 border border-slate-200/90 rounded-3xl p-7 flex flex-col justify-between space-y-6">
               <div className="space-y-2">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#0000FE] text-white flex items-center justify-center">
                   <Clock className="w-5 h-5" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 pt-1">
-                  Familiar Timed CBT Flow
+                  Practice Under Real Timing
                 </h3>
                 <p className="text-sm text-slate-600 max-w-lg">
                   Students practise with real exam timers, question palettes, and authentic JAMB 8-key navigation so exam day feels effortless.
@@ -672,7 +677,7 @@ function VersionOneSaaSBento() {
                     </span>
                   ))}
                 </div>
-                <span className="text-xs font-semibold text-emerald-600">
+                <span className="text-xs font-semibold text-[#0000FE]">
                   Keyboard Shortcuts Built-In
                 </span>
               </div>
@@ -681,23 +686,23 @@ function VersionOneSaaSBento() {
             {/* Bento 2 (5 Cols): Seeded & Controlled Content */}
             <div className="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-7 flex flex-col justify-between space-y-6">
               <div className="space-y-2">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#0000FE]/20 border border-[#FF6600]/30 text-[#FF6600] flex items-center justify-center">
                   <Database className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold pt-1">Curated &amp; Seeded Question Bank</h3>
+                <h3 className="text-xl font-bold pt-1">Pick a Seeded Paper</h3>
                 <p className="text-sm text-slate-300">
-                  No messy unverified uploads. Only approved, syllabus-aligned WAEC, JAMB, NECO, and school papers go live for student practice.
+                  Select from 45,000+ syllabus-verified WAEC, JAMB &amp; NECO papers or teacher-assigned mocks. No messy unverified uploads.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <div className="bg-white/10 border border-white/10 rounded-xl px-3.5 py-2.5 flex items-center justify-between text-xs">
                   <span>JAMB UTME 2010–2024</span>
-                  <span className="text-emerald-400 font-semibold">✓ Seeded &amp; Verified</span>
+                  <span className="text-[#FF6600] font-semibold">✓ Seeded &amp; Verified</span>
                 </div>
                 <div className="bg-white/10 border border-white/10 rounded-xl px-3.5 py-2.5 flex items-center justify-between text-xs">
                   <span>WAEC &amp; NECO SSCE Papers</span>
-                  <span className="text-emerald-400 font-semibold">✓ Seeded &amp; Verified</span>
+                  <span className="text-[#FF6600] font-semibold">✓ Seeded &amp; Verified</span>
                 </div>
               </div>
             </div>
@@ -705,7 +710,7 @@ function VersionOneSaaSBento() {
             {/* Bento 3 (5 Cols): Offline-First Resilience */}
             <div className="lg:col-span-5 bg-slate-50 border border-slate-200/90 rounded-3xl p-7 flex flex-col justify-between space-y-6">
               <div className="space-y-2">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#0000FE] text-white flex items-center justify-center">
                   <Wifi className="w-5 h-5" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 pt-1">
@@ -750,7 +755,7 @@ function VersionOneSaaSBento() {
             {/* Bento 4 (7 Cols): School Operations & Analytics */}
             <div
               id="v1-workflow"
-              className="lg:col-span-7 bg-emerald-600 text-white rounded-3xl p-7 flex flex-col justify-between space-y-6"
+              className="lg:col-span-7 bg-[#0000FE] text-white rounded-3xl p-7 flex flex-col justify-between space-y-6"
             >
               <div className="space-y-2">
                 <div className="w-10 h-10 rounded-xl bg-white/15 text-white flex items-center justify-center">
@@ -759,8 +764,8 @@ function VersionOneSaaSBento() {
                 <h3 className="text-xl font-bold pt-1">
                   Built for Schools &amp; Tutorial Centres
                 </h3>
-                <p className="text-sm text-emerald-100 max-w-lg">
-                  Create examinations, schedule homework assignments, and review class-wide topic mastery from one clean dashboard.
+                <p className="text-sm text-white/80 max-w-lg">
+                  Assign seeded past papers or custom school assessments. Students join with a 6-digit code and results export to Excel/PDF.
                 </p>
               </div>
 
@@ -781,12 +786,114 @@ function VersionOneSaaSBento() {
                     key={stat.topic}
                     className="bg-white/10 backdrop-blur-xs border border-white/15 rounded-2xl p-3.5"
                   >
-                    <div className="text-xs text-emerald-100">{stat.topic}</div>
+                    <div className="text-xs text-white/80">{stat.topic}</div>
                     <div className="text-xl font-extrabold mt-0.5">{stat.pct}</div>
-                    <div className="text-[11px] text-emerald-200 mt-0.5">{stat.status}</div>
+                    <div className="text-[11px] text-white/70 mt-0.5">{stat.status}</div>
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* V1 Pricing — V3 naira plans in brand style */}
+      <section id="v1-pricing" className="py-24 md:py-32 bg-white border-b border-slate-200/80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 md:space-y-12">
+          <div className="max-w-2xl space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0000FE]">
+              SIMPLE NAIRA PRICING
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Start free. Scale when ready.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="bg-slate-50 border border-slate-200/90 rounded-3xl p-7 flex flex-col justify-between space-y-6">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 px-3 py-1 rounded-full bg-white border border-slate-200">
+                    FOR INDIVIDUAL LEARNERS
+                  </span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0000FE]">
+                    FREE TO START
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 pt-1">
+                  <span className="text-4xl sm:text-5xl font-extrabold text-slate-900">₦0</span>
+                  <span className="text-xs font-semibold text-slate-500">
+                    / daily seeded papers (₦1,500/mo Unlimited)
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600">
+                  Everything a candidate needs to practise WAEC, JAMB &amp; NECO papers calmly.
+                </p>
+                <ul className="space-y-2.5 pt-2 text-sm font-medium text-slate-700">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#0000FE] shrink-0" />
+                    <span>Timed CBT simulator with 8-key JAMB shortcuts</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#0000FE] shrink-0" />
+                    <span>Instant step-by-step explanations &amp; topic breakdown</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#0000FE] shrink-0" />
+                    <span>Low-data offline mode for uninterrupted practice</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                onClick={() => setSignupModal(true)}
+                className="w-full bg-[#0000FE] hover:bg-[#0000CC] text-white font-bold text-sm py-3.5 rounded-xl shadow-sm transition-all"
+              >
+                Create Free Student Account →
+              </button>
+            </div>
+
+            <div className="bg-slate-900 text-white rounded-3xl p-7 flex flex-col justify-between space-y-6">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#FF6600] text-white">
+                    FOR SCHOOLS &amp; TUTORIALS
+                  </span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF6600]">
+                    14-DAY FREE TRIAL
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-2 pt-1">
+                  <span className="text-4xl sm:text-5xl font-extrabold">₦25,000</span>
+                  <span className="text-xs font-semibold text-slate-400">
+                    / term per school workspace
+                  </span>
+                </div>
+                <p className="text-sm text-slate-300">
+                  Run unlimited internal mocks, class assignments, and CBT drills across JSS1–SS3.
+                </p>
+                <ul className="space-y-2.5 pt-2 text-sm font-medium text-slate-200">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#FF6600] shrink-0" />
+                    <span>Assign seeded WAEC/JAMB papers or custom teacher exams</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#FF6600] shrink-0" />
+                    <span>Instant class broadsheets (PDF/CSV) &amp; weak-topic alerts</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#FF6600] shrink-0" />
+                    <span>Works in school computer labs even when internet drops</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                onClick={() => setSignupModal(true)}
+                className="w-full bg-[#FF6600] hover:brightness-95 text-white font-bold text-sm py-3.5 rounded-xl shadow-sm transition-all"
+              >
+                Launch School Workspace →
+              </button>
             </div>
           </div>
         </div>
@@ -796,7 +903,7 @@ function VersionOneSaaSBento() {
       <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-[#090D16] text-white rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2">
           <div className="p-8 sm:p-12 flex flex-col justify-center space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#FF6600]">
               START NOW
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
@@ -834,7 +941,7 @@ function VersionOneSaaSBento() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase text-emerald-600">
+              <span className="text-xs font-bold uppercase text-[#0000FE]">
                 Get Started on Prepadi
               </span>
               <button
@@ -852,7 +959,7 @@ function VersionOneSaaSBento() {
             />
             <button
               onClick={() => setSignupModal(false)}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-sm"
+              className="w-full bg-[#0000FE] hover:bg-[#0000CC] text-white font-bold py-3 rounded-xl text-sm"
             >
               Continue to Practice Workspace →
             </button>
